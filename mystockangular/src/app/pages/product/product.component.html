@@ -1,0 +1,13 @@
+<div *ngFor="let product of products" class="col-md-4 col-sm-4 col-lg-4">
+    <div class="thumbnail">
+      <!-- 标签绑定：把HTML的一个标签的属性和controller上的一个属性绑定 -->
+      <img [src]="product.pic">
+      <div class="caption">
+        <h4 class="pull-right">{{product.price | money:3}}元</h4>
+        <h4><a [routerLink]="['/product',product.id]">{{product.title}}</a></h4>
+        <p>{{product.desc}}</p>
+      </div>
+      <div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,31 @@
+<div class="div-signup">
+    <!-- 用户名处的required是由Validator提供的内置校验方法，但是html元素也有叫
+   required的属性，所以在form上加一个novalidate，表示不需要浏览器的默认校验-->
+
+   <div class="div-signup-box">
+    <form class="form-signup" #myForm="ngForm" (ngSubmit)="onSubmit(myForm.value)" novalidate>
+      <h1 class="h3 mb-3 font-weight-normal">Create an account</h1>
+  
+      <p *ngFor="let alert of alerts">
+        <ngb-alert [type]="alert.type" (close)="close(alert)">{{ alert.message }}</ngb-alert>
+      </p>
+      
+      <!-- bootstrap utilities/screenreaders   -->
+      <label for="inputUsername" class="sr-only">User name</label>
+      <input ngModel name="name" id="inputUsername" class="form-control" placeholder="User Name" type="text">
+      <br>
+      <label for="inputMobile" class="sr-only">User name</label>
+      <input ngModel name="mobile" id="inputMobile" class="form-control" placeholder="Mobile" type="text">
+      <br>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input ngModel name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" >
+      <br>
+      <label for="inputRePassword" class="sr-only">Password</label>
+      <input ngModel name="repassword" type="repassword" id="inputRePassword" class="form-control" placeholder="Password" >
+      <br>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+      <p>Already had an account?</p><a class="" [routerLink]="['/sign-in']">Sign in</a>
+    </form>
+    </div>
+  </div>
+  
