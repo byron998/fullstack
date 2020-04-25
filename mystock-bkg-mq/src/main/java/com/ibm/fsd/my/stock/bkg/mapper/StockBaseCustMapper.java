@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.ibm.fsd.my.stock.bkg.entity.StockBaseEntity;
 
-public interface StockBaseMapper {
+public interface StockBaseCustMapper extends StockBaseMapper{
 	 @Select("select * from stock_base")
 	 List<StockBaseEntity> getAllStocks();
 	 

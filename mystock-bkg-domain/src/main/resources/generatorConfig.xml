@@ -26,20 +26,28 @@
 </javaClientGenerator>
 <!--要生成的表结构-->
 	<table tableName="user_base" domainObjectName="UserBase"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+		<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
 	</table>
 	<table tableName="user_fund" domainObjectName="UserFund"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+		<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
 	</table>
 	<table tableName="user_hold_stock" domainObjectName="UserHoldStock"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+		<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
 	</table>
 	<table tableName="stock_base" domainObjectName="StockBase"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+		<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
 	</table>
 	<table tableName="stock_price_history" domainObjectName="StockPriceHistory"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+		<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
 	</table>
 	<table tableName="stock_trade_record" domainObjectName="StockTradeRecord"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+		<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
 	</table>
 	<table tableName="stock_consign_buy_record" domainObjectName="StockConsignbuyRecord"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+		<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
 	</table>
 	<table tableName="stock_consign_sell_record" domainObjectName="StockConsignSellRecord"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+		<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
 	</table>
 </context>
 </generatorConfiguration>

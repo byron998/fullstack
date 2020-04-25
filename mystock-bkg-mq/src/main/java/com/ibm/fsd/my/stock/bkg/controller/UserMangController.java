@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ibm.fsd.my.stock.bkg.bean.po.UserMangPo;
+import com.ibm.fsd.my.stock.bkg.bean.po.UserBasePo;
 import com.ibm.fsd.my.stock.bkg.bean.result.ReturnResponse;
 import com.ibm.fsd.my.stock.bkg.bean.result.ReturnResult;
 import com.ibm.fsd.my.stock.bkg.bean.vo.UserMangVo;
-import com.ibm.fsd.my.stock.bkg.entity.UserBaseEntity;
+import com.ibm.fsd.my.stock.bkg.domain.UserBase;
 import com.ibm.fsd.my.stock.bkg.service.UserMangService;
 
 @RestController
@@ -24,7 +24,7 @@ public class UserMangController {
     private UserMangService userMangService;
 	
 	@GetMapping("getAllUsers")
-    public List<UserBaseEntity> GetAllUsers(){
+    public List<UserBase> GetAllUsers(){
         return userMangService.getAllUsers();
     }
 	
@@ -34,8 +34,9 @@ public class UserMangController {
     }
 	
 	@PostMapping("register")
-	public ReturnResult<UserMangVo> register(@RequestBody UserMangPo request) {
+	public ReturnResult<UserMangVo> register(@RequestBody UserBasePo request) {
 		UserMangVo data = new UserMangVo();
+
 		return ReturnResponse.makeOKResp(data);
 	}
 }
