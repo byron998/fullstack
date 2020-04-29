@@ -1,17 +1,20 @@
 <!-- 顶级父组件：定义页面的整体轮廓 -->
-<app-navbar></app-navbar>
-
-<div class="container div-main">
-  <div class="row" >
+<div class="row">
+  <app-navbar></app-navbar>
+</div>
+<div class="row" >
+  <div class="container div-main">
     <!--  侧边栏  -->
-    <div class="col-md-2">
-
+    <div class="col-2 col-md-2">
+      <p>left</p>
+      <app-left-list></app-left-list>
     </div>
     <!--  内容区域  -->
-    <div><!-- class="col-md-10"-->
+    <div class="col-12 col-md-12">
       <router-outlet></router-outlet>
     </div>
   </div>
 </div>
-
-<footer></footer>
+<div class="row">
+  <footer></footer>
+</div>

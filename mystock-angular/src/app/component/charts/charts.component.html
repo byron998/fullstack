@@ -1,3 +1,17 @@
 <div>
-  <div id="lineChart" style="width:600px;height:400px;"></div>
+  <mat-tab-group>
+    <mat-tab label="日K">
+      <h1 style="align-items: center;">大盘日K</h1>
+      <div echarts [options]="options" style="width:600px;height:400px;"></div>
+    </mat-tab>
+    <mat-tab label="5日K">
+      <h1 style="align-items: center;">大盘5日K</h1>
+    </mat-tab>
+    <mat-tab label="10日K">
+      <h1 style="align-items: center;">大盘10日K</h1>
+    </mat-tab>
+    <mat-tab label="30日K">
+      <h1 style="align-items: center;">大盘30日K</h1>
+    </mat-tab>
+  </mat-tab-group>
 </div>
