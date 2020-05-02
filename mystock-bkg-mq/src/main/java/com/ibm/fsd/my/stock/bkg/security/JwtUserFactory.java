@@ -8,6 +8,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.ibm.fsd.my.stock.bkg.bean.result.VarcharBoolean;
+import com.ibm.fsd.my.stock.bkg.domain.UserBase;
 
 
 public final class JwtUserFactory {
@@ -15,17 +17,14 @@ public final class JwtUserFactory {
     private JwtUserFactory() {
     }
 
-    public static JwtUser create(JSONObject json) {
+    public static JwtUser create(UserBase base) {
         return new JwtUser(
-        		json.getString("id"),
-        		json.getString("username"),
-        		json.getString("name"),
-        		"",
-        		json.getString("mobile"),
-        		json.getString("role"),
-        		mapToGrantedAuthorities(json.getJSONArray("authorities")),
-        		json.getBoolean("enabled"),
-        		json.getDate("lastPasswordResetDate")
+        		base.getId(),
+        		base.getUsername(),
+        		base.getPassword(),
+        		base.getMobile(),
+        		base.getIsAdmin().equals(VarcharBoolean.BOOL_TRUE.code) ? JwtUserRoleEnum.ADMIN: JwtUserRoleEnum.USER,
+        		base.getAvailable().equals(VarcharBoolean.BOOL_TRUE.code) ? true: false
         );
     }
 

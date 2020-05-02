@@ -1,8 +1,7 @@
 package com.ibm.fsd.my.stock.bkg.security;
 
-import lombok.Data;
-
 import java.io.Serializable;
+import lombok.Data;
 
 @Data
 public class JwtAuthenticationRequest implements Serializable {
@@ -20,4 +19,5 @@ public class JwtAuthenticationRequest implements Serializable {
         this.setUsername(username);
         this.setPassword(password);
     }
+
 }
