@@ -13,9 +13,11 @@ export class ChartsComponent implements OnInit {
   constructor() {
 
   }
-
+  ngAfterViewInt() {
+      
+  }
   ngOnInit() {
-    let mycharts = echarts.init(document.getElementById('lineChart'));
+    
     var base = +new Date(1968, 9, 3);
     var oneDay = 24 * 3600 * 1000;
     var date = [];
@@ -97,6 +99,6 @@ export class ChartsComponent implements OnInit {
             }
         ]
     };
-    mycharts.setOption(option);
+    this.options=option;
   }
 }
