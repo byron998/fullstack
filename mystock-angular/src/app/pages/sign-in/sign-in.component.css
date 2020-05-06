@@ -2,7 +2,8 @@
   text-align: center;
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-left:  380px;
   padding-top: 0px;
   padding-bottom: 0px;
   color: var(--color-semidark);
@@ -12,7 +13,7 @@
 }
 .div-signin-box {
   width: 55em;
-  height: 30em;
+  height: 27em;
   background-color: #fff;
   box-shadow: 0 7px 25px rgba(0, 0, 0, .08);
 

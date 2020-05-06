@@ -1,4 +1,4 @@
-<div class="div-signup">
+<div class="div-signup col-6 col-xs-6">
     <!-- 用户名处的required是由Validator提供的内置校验方法，但是html元素也有叫
    required的属性，所以在form上加一个novalidate，表示不需要浏览器的默认校验-->
 
@@ -21,7 +21,7 @@
       <input ngModel name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" >
       <br>
       <label for="inputRePassword" class="sr-only">Password</label>
-      <input ngModel name="repassword" type="repassword" id="inputRePassword" class="form-control" placeholder="Password" >
+      <input ngModel name="repassword" type="password" id="inputRePassword" class="form-control" placeholder="Confirm Password" >
       <br>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
       <p>Already had an account?</p><a class="" [routerLink]="['/sign-in']">Sign in</a>

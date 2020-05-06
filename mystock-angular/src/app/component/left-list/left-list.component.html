@@ -1,7 +1,60 @@
-<div>
-  <mat-list>
-    <mat-list-item> Pepper </mat-list-item>
-    <mat-list-item> Salt </mat-list-item>
-    <mat-list-item> Paprika </mat-list-item>
-  </mat-list>
+<div class="div-left">
+
+  <mat-drawer-container class="example-container" style="margin-top:50px; height:620px;" autosize>
+    <mat-drawer #drawer class="example-sidenav" style="height:620px;width: 100px;" mode="side">
+      <h5 style="margin-top: 5px ;text-align: center;">股票列表</h5>
+      
+      <button *ngFor="let product of products" [routerLink]="['/stock/'+ product.id ]" mat-stroked-button >
+        {{ product.name }}
+      </button>
+      <button (click)="showFiller = !showFiller" mat-stroked-button style="color: gray;">
+        华夏幸福
+      </button>
+      <button (click)="showFiller = !showFiller" mat-stroked-button style="color:green;">
+        华夏幸福
+      </button>
+      <button (click)="showFiller = !showFiller" mat-stroked-button style="color:red;">
+        华夏幸福
+      </button>
+      <button (click)="showFiller = !showFiller" mat-stroked-button style="color:red;">
+        华夏幸福
+      </button>
+      <button (click)="showFiller = !showFiller" mat-stroked-button style="color:red;">
+        华夏幸福
+      </button>
+      <button (click)="showFiller = !showFiller" mat-stroked-button style="color:red;">
+        华夏幸福
+      </button>
+      <button (click)="showFiller = !showFiller" mat-stroked-button style="color:red;">
+        华夏幸福
+      </button>
+      <button (click)="showFiller = !showFiller" mat-stroked-button style="color:red;">
+        华夏幸福
+      </button>
+      <button (click)="showFiller = !showFiller" mat-stroked-button style="color:red;">
+        华夏幸福
+      </button>
+      <button [routerLink]="['/stock/'+ '54']" mat-stroked-button style="color:green;">
+        华夏幸福
+      </button>
+      <button [routerLink]="['/stock/'+ '55']" mat-stroked-button style="color:red;">
+        华夏幸福
+      </button>
+    </mat-drawer>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="example-sidenav-content" style="filter:alpha(Opacity=80);-moz-opacity:0.8;opacity: 0.8;">
+      <button type="button" (click)="drawer.toggle();onchangeButton()">{{ butText }}</button>
+    </div>
+  </mat-drawer-container>
 </div>
