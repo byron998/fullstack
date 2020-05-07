@@ -2,9 +2,10 @@
 	text-align: center;
 	display: flex;
 	align-items: center;
-	margin-top: 10px;
+	margin-top: 5px;
+	margin-left: 380px;
 	padding-top: 0px;
-	padding-bottom: 40px;
+	padding-bottom: 0px;
 	color: var(--color-semidark);
 	  font-weight: 700;
 	  margin-bottom: 20px;
@@ -12,7 +13,7 @@
   }
   .div-signup-box {
 	width: 55em;
-	height: 40em;
+	height: 35em;
 	background-color: #fff;
 	box-shadow: 0 7px 25px rgba(0, 0, 0, .08);
   

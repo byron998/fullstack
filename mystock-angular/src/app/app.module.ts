@@ -5,6 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon'
 
 // import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 /* bootstrap 按需导入，可以使我们最终的打包文件更小 */
@@ -19,9 +21,12 @@ import { FooterComponent } from './component/footer/footer.component';
 import { ChartsComponent } from './component/charts/charts.component';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
-import { LeftListComponent } from './component/left-list/left-list.component'
+import { LeftListComponent } from './component/left-list/left-list.component';
+import { StockComponent } from './pages/stock/stock.component';
+import { UserShowComponent } from './component/user-show/user-show.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MoneyPipe } from './pipe/money.pipe';
+import { RatePipe } from './pipe/rate.pipe';
 import { JwtInterceptor } from './interceptor/jwt.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -38,7 +43,10 @@ import { NgxEchartsModule } from 'ngx-echarts';
     SignUpComponent,
     ChartsComponent,
     LeftListComponent,
-    MoneyPipe
+    UserShowComponent,
+    StockComponent,
+    MoneyPipe,
+    RatePipe
   ],
   imports: [
     BrowserModule,
@@ -52,6 +60,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
     MatCheckboxModule,
     MatTabsModule,
     MatListModule,
+    MatSidenavModule,
+    MatIconModule,
     NgxEchartsModule
   ],
   providers: [

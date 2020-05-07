@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-9 col-xs-9">
+    <div class="row">
+      <div class="col-3 col-xs-9">
+        <h4>ID:{{ stockid }}</h4>
+      </div>
+      <div class="col-3 col-xs-9">
+        <h5>名称:{{ stockinfo.name }}</h5>
+      </div>
+      <div class="col-3 col-xs-9">
+        <h5>交易价格:{{ stockinfo.price }}</h5>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3 col-xs-9 row">
+        <h5>涨幅:<span [ngClass]="{'none-rate': stockinfo.rate==0,'up-rate': stockinfo.rate>0,'down-rate': stockinfo.rate<0}">{{ stockinfo.rate | rate}}</span></h5>
+      </div>
+      <div class="col-3 col-xs-9">
+        <h5>市场:{{ stockinfo.market }}</h5>
+      </div>
+      <div class="col-3 col-xs-9">
+        <h5>行业:{{ stockinfo.industry }}</h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-3 col-xs-3">
+    fenlen4
+  </div>
+</div>

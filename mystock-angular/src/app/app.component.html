@@ -2,19 +2,17 @@
 <div class="row">
   <app-navbar></app-navbar>
 </div>
+
+<!--  侧边栏  -->
+<div style="height:max-content; background-color: darkblue;">
+  <app-left-list></app-left-list>
+</div>
 <div class="row" >
   <div class="container div-main">
-    <!--  侧边栏  -->
-    <div class="col-2 col-md-2">
-      <p>left</p>
-      <app-left-list></app-left-list>
-    </div>
     <!--  内容区域  -->
-    <div class="col-12 col-md-12">
-      <router-outlet></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
   </div>
 </div>
-<div class="row">
-  <footer></footer>
+<div class="row" style="background-color:bisque;">
+  <app-footer></app-footer>
 </div>
