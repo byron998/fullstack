@@ -23,7 +23,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 @SpringBootApplication
 @EnableScheduling
 @EnableTransactionManagement
-public class App 
+public class MqApp 
 {
 	
 	@Bean
@@ -54,6 +54,6 @@ public class App
 	
     public static void main(String[] args )
     {
-    	SpringApplication.run(App.class, args);
+    	SpringApplication.run(MqApp.class, args);
     }
 }

@@ -41,10 +41,17 @@ public class Swagger2Config {
 				.required(false).build(); // header中的ticket参数非必填，传空也可以
 		pars.add(ticketPar.build()); // 根据每个方法名也知道当前方法在设置什么参数
 
+//		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
+//				.apis(RequestHandlerSelectors.basePackage("com.ibm.fsd.my.stock.bkg")).paths(PathSelectors.any())
+//				.build().securitySchemes(newArrayList(apiKey())).globalOperationParameters(pars)
+//				.securityContexts(securityContexts());
 		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-				.apis(RequestHandlerSelectors.basePackage("com.ibm.fsd.my.stock.bkg")).paths(PathSelectors.any())
-				.build().securitySchemes(newArrayList(apiKey())).globalOperationParameters(pars)
-				.securityContexts(securityContexts());
+				.apis(RequestHandlerSelectors.basePackage("com.ibm.fsd.my.stock.bkg"))
+				.paths(PathSelectors.any())
+				.build()
+				.securitySchemes(newArrayList(apiKey()))
+				.globalOperationParameters(pars)
+				;
 	}
 
 	private ApiInfo apiInfo() {

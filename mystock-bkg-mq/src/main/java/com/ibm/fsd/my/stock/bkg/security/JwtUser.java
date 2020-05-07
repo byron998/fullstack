@@ -2,6 +2,7 @@ package com.ibm.fsd.my.stock.bkg.security;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,6 +20,7 @@ public class JwtUser implements UserDetails {
     private final String password;
     private final String mobile;
     private final boolean isEnabled;
+    private final Date lastPwdResetDate;
     private final Collection<? extends GrantedAuthority> authorities;
 
     public JwtUser(
@@ -27,7 +29,8 @@ public class JwtUser implements UserDetails {
             String password, 
             String mobile,
             JwtUserRoleEnum role,
-            Boolean isEnabled
+            Boolean isEnabled,
+            Date lastPwdResetDate
     ) {
         this.id = id;
         this.username = username;
@@ -35,6 +38,7 @@ public class JwtUser implements UserDetails {
         this.password = password;
         this.authorities = Collections.singleton(new SimpleGrantedAuthority(role.getRole()));
         this.isEnabled = isEnabled;
+        this.lastPwdResetDate = lastPwdResetDate;
     }
 
     @JsonIgnore
@@ -74,6 +78,10 @@ public class JwtUser implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
+	public Date getLastPwdResetDate() {
+		return lastPwdResetDate;
+	}
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;

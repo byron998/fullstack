@@ -1,10 +1,13 @@
 package com.ibm.fsd.my.stock.bkg.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mobile.device.Device;
+import org.springframework.mobile.device.DeviceUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,7 +47,7 @@ public class AuthorizeController {
     @RequestMapping(value = "login", method = RequestMethod.POST)
     //@PreAuthorize("hasRole('USER') OR hasRole('ADMIN')")
     //@PreAuthorize("hasPermission('user', 'update')")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletRequest servletRequest, HttpSession session) throws AuthenticationException {
 
         // Perform the security
 //        final Authentication authentication = authenticationManager.authenticate(
@@ -54,7 +57,7 @@ public class AuthorizeController {
 //                )
 //        );
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
-
+    	// final Device device = DeviceUtils.getCurrentDevice(servletRequest);
         // Reload password post-security so we can generate token
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         if (userDetails.getPassword().equals(authenticationRequest.getPassword()) && 
