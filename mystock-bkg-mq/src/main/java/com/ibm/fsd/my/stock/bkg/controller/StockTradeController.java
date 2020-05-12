@@ -2,6 +2,7 @@ package com.ibm.fsd.my.stock.bkg.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,14 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ibm.fsd.my.stock.bkg.schedule.MyStockTradeTask;
 
 @RestController
-@RequestMapping("/stock/trade")
+@RequestMapping("/api/trade")
 public class StockTradeController {
 	
 	@Autowired
     ApplicationContext applicationContext;
 	
 	
-	@PostMapping("getStatus")
+	@GetMapping("status")
 	public Boolean getStatus(){
 		MyStockTradeTask task = applicationContext.getBean(MyStockTradeTask.class);
         return task.selfTradeFlg;

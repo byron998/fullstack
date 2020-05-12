@@ -28,6 +28,12 @@
         <artifactId>spring-boot-starter-web</artifactId>
         <version>${maven.spring.boot.version}</version>
     </dependency>
+    <!-- amqp for RabbitMQ -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-amqp</artifactId>
+        <version>${maven.spring.boot.version}</version>
+    </dependency>
     <!-- mysql -->
     <dependency>
         <groupId>mysql</groupId>

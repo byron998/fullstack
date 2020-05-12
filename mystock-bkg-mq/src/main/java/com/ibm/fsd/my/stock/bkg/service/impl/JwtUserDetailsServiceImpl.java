@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.ibm.fsd.my.stock.bkg.bean.result.VarcharBoolean;
 import com.ibm.fsd.my.stock.bkg.domain.UserBase;
 import com.ibm.fsd.my.stock.bkg.mapper.UserBaseCustMapper;
 import com.ibm.fsd.my.stock.bkg.security.JwtUserFactory;
@@ -20,8 +21,12 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
         UserBase user = userBaseCustMapper.getUserByName(username);
 
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("用户名'%s'不存在。", username));
-        } else {
+            throw new UsernameNotFoundException(String.format("User ['%s'] is not exist.", username));
+        } 
+        else if (user.getAvailable().equals(VarcharBoolean.BOOL_FALSE.code)) {
+        	throw new UsernameNotFoundException(String.format("User ['%s'] is not available.", username));
+        }
+        else {
             return JwtUserFactory.create(user);
         }
     }

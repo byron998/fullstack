@@ -1,4 +1,4 @@
-package com.ibm.fsd.my.stock.bkg.bean.ao;
+package com.ibm.fsd.my.stock.bkg.bean.bo;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class UserBaseAo {
+public class UserBaseBo {
 	@NotNull
 	@NotBlank(message = "用户名不能为空")
     private String username;

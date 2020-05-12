@@ -1,7 +1,7 @@
 package com.ibm.fsd.my.stock.bkg.security;
 
 public enum JwtUserRoleEnum {
-	USER("USER"), ADMIN("ADMIN");
+	USER("ROLE_USER"), ADMIN("ROLE_ADMIN");
 	public String code;
 
 	JwtUserRoleEnum(String code) {

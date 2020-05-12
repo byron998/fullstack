@@ -1,9 +1,10 @@
 package com.ibm.fsd.my.stock.bkg.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.validation.constraints.DecimalMin;
-
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,16 +14,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ibm.fsd.my.stock.bkg.bean.ao.UserBaseAo;
+import com.ibm.fsd.my.stock.bkg.bean.bo.UserBaseBo;
 import com.ibm.fsd.my.stock.bkg.bean.result.ReturnCode;
 import com.ibm.fsd.my.stock.bkg.bean.result.ReturnResponse;
 import com.ibm.fsd.my.stock.bkg.bean.result.ReturnResult;
 import com.ibm.fsd.my.stock.bkg.bean.vo.UserBaseVo;
+import com.ibm.fsd.my.stock.bkg.bean.vo.UsersCountVo;
 import com.ibm.fsd.my.stock.bkg.domain.UserBase;
 import com.ibm.fsd.my.stock.bkg.domain.UserFund;
 import com.ibm.fsd.my.stock.bkg.service.UserMangService;
+import com.mysql.cj.util.StringUtils;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -32,46 +36,61 @@ public class UserMangController {
 	@Autowired
     private UserMangService userMangService;
 	
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @ApiOperation(value="用户获取全部")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @ApiOperation(value="获取全部用户")
 	@GetMapping("all")
-    public List<UserBase> GetAllUsers(){
-        return userMangService.getAllUsers();
+    public ReturnResult<List<UserBase>> getAllUsers(@RequestParam(name = "available") String available,
+    		@RequestParam(name = "online") String online){
+    	Map<String, String> inputmap = new HashMap<String, String>();
+    	if (!StringUtils.isNullOrEmpty(available)) {
+    		inputmap.put("available", available);
+    	}
+    	if (!StringUtils.isNullOrEmpty(online)) {
+    		inputmap.put("online", online);
+    	}
+        return ReturnResponse.makeOKResp(userMangService.getAllUsers(inputmap));
     }
     
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @ApiOperation(value="获取用户统计数字")
+	@GetMapping("cnt")
+    public ReturnResult<UsersCountVo> getUsersCnt(){
+        return ReturnResponse.makeOKResp(userMangService.getUsersCount());
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @ApiOperation(value="用户获取")
 	@GetMapping("{id}")
-    public ReturnResult<UserBaseVo> GetUser(@PathVariable long id){
+    public ReturnResult<UserBaseVo> getUser(@PathVariable long id){
 		UserBaseVo data = new UserBaseVo();
 		try {
 			UserBase result = userMangService.getUserById(id);
 			if (result == null || result.getId() == 0l) {
-				return ReturnResponse.makeErrResp(ReturnCode.NOT_FOUND.code, "数据未找到");
+				return ReturnResponse.makeErrResp(ReturnCode.NOT_FOUND.code, "ID is not exist.");
 			}
 			BeanUtils.copyProperties(result, data);
 		}
 		catch(Exception ex) {
-			return ReturnResponse.makeErrResp(ReturnCode.INTERNAL_SERVER_ERROR.code, "数据库操作异常");
+			return ReturnResponse.makeErrResp(ReturnCode.INTERNAL_SERVER_ERROR.code, "Database server error.");
 		}
 		return ReturnResponse.makeOKResp(data);
     }
     
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @ApiOperation(value="用户启用")
 	@PostMapping("enabled/{id}")
-	public ReturnResult<UserBaseVo> effective(@PathVariable long id, @RequestBody @Validated @DecimalMin("1000") int fund) {
+	public ReturnResult<UserBaseVo> effective(@PathVariable long id, @RequestBody @Validated @Range(min=10000,max=1000000,message="初始金额为1w到100w") int fund) {
 		UserBaseVo data = new UserBaseVo();
 		try {
 			UserBase result = userMangService.getUserById(id);
 			if (result == null || result.getId() == 0l) {
-				return ReturnResponse.makeErrResp(ReturnCode.NOT_FOUND.code, "数据未找到");
+				return ReturnResponse.makeErrResp(ReturnCode.NOT_FOUND.code, "ID is not exist.");
 			}
 			BeanUtils.copyProperties(result, data);
 			UserFund input = new UserFund();
 			input.setUserId(id);
 			input.setFundPrice(Integer.valueOf(fund).doubleValue());
-			userMangService.makeAvailableAndGetDeafultFund(input);
+			userMangService.makeAvailableAddDeafultFund(input);
 		}
 		catch(Exception ex) {
 			return ReturnResponse.makeErrResp(ReturnCode.INTERNAL_SERVER_ERROR.code, "数据库操作异常");
@@ -81,7 +100,7 @@ public class UserMangController {
 	
     @ApiOperation(value="用户注册")
 	@PostMapping("register")
-	public ReturnResult<UserBaseVo> register(@RequestBody @Validated UserBaseAo request) {
+	public ReturnResult<UserBaseVo> register(@RequestBody @Validated UserBaseBo request) {
 		UserBaseVo data = new UserBaseVo();
 		
 		try {
@@ -103,7 +122,7 @@ public class UserMangController {
 			data.setId((long)insertid);
 		}
 		catch(Exception ex) {
-			return ReturnResponse.makeErrResp(ReturnCode.INTERNAL_SERVER_ERROR.code, "数据库操作异常");
+			return ReturnResponse.makeErrResp(ReturnCode.INTERNAL_SERVER_ERROR.code, "Database server error.");
 		}
 		return ReturnResponse.makeOKResp(data);
 	}

@@ -14,7 +14,11 @@ spring:
     username: guest
     password: 12345678g
     virtual-host: /
-    
+    listener:
+      concurrency: 2
+      max-concurrency: 5
+      prefetch: 8
+      
   redis:
     host: localhost
     port: 6379

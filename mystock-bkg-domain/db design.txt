@@ -1,0 +1,133 @@
+use mystock;
+
+CREATE TABLE `user_base` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `username` varchar(20) NOT NULL COMMENT '用户名',
+  `password` varchar(255) NOT NULL COMMENT '登陆密码',
+  `mobile` varchar(15) NOT NULL COMMENT '手机号',
+  `available` varchar(1) NOT NULL DEFAULT 'n' COMMENT '是否有效（y/n）',
+  `is_admin` varchar(1) NOT NULL DEFAULT 'n' COMMENT '是否管理员（y/n）',
+  `last_login_dt` DATETIME DEFAULT NULL COMMENT '上次登陆时间',
+  `online` varchar(1) NOT NULL DEFAULT 'n' COMMENT '是否在线（y/n）',
+  `last_update_dt` DATETIME DEFAULT NULL COMMENT '最终更新时间',
+  INDEX `username_idx` (`username`(20)) ,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8  COMMENT='用户信息表';
+
+
+CREATE TABLE `user_fund` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `fund_type` varchar(1) NOT NULL COMMENT '类型（B:买;D:初期;S:卖）',
+  `fund_price` double NOT NULL COMMENT '资金额(有正负求最终须总和)',
+  `completed` varchar(1) NOT NULL DEFAULT 'n' COMMENT '是否完成交易（y/n）',
+  `last_update_dt` DATETIME DEFAULT NULL COMMENT '最终更新时间',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY(`user_id`) REFERENCES user_base(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8  COMMENT='用户资金状况表';
+
+
+CREATE TABLE `stock_base` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `stock_code` varchar(6) NOT NULL COMMENT '股票代码',
+  `stock_name` varchar(10) NOT NULL COMMENT '股票名称',
+  `stock_count` bigint NOT NULL COMMENT '总股本数',
+  `stock_count_trada` bigint NOT NULL COMMENT '可交易股本数',
+  `market_categ` varchar(2) NOT NULL COMMENT '市场分类',
+  `industry_categ` varchar(3) NOT NULL COMMENT '行业分类',
+  `issue_price` double NOT NULL COMMENT '发行价',
+  `suspend` varchar(1) NOT NULL DEFAULT 'n' COMMENT '停牌（y/n）',
+  `suspend_days` int DEFAULT 0 COMMENT '停牌天数',
+  `suspend_start_dt` DATETIME DEFAULT NULL COMMENT '停牌开始日时',
+  `last_update_dt` DATETIME DEFAULT NULL COMMENT '最终更新时间',
+  INDEX `stock_code_idx` (`stock_code`(6)),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8  COMMENT='股票基础信息表';
+
+
+CREATE TABLE `user_hold_stock` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `stock_id` bigint NOT NULL COMMENT '股票ID',
+  `hold_type` varchar(1) NOT NULL COMMENT '类型（B:买;D:股息;S:卖）',
+  `hold_price` double NOT NULL COMMENT '持仓价格',
+  `hold_amount` bigint NOT NULL COMMENT '持仓数量(有正负求最终须总和)',
+  `completed` varchar(1) NOT NULL DEFAULT 'n' COMMENT '是否完成交易（y/n）',
+  `last_update_dt` DATETIME DEFAULT NULL COMMENT '最终更新时间',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY(`user_id`) REFERENCES user_base(`id`) ON DELETE CASCADE ON UPDATE CASCADE, 
+  FOREIGN KEY(`stock_id`) REFERENCES stock_base(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8  COMMENT='用户持仓状况表';
+
+
+CREATE TABLE `stock_trade_record` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `stock_id` bigint NOT NULL COMMENT '股票ID',
+  `buy_record_id` bigint NOT NULL COMMENT '买单ID',
+  `sell_record_id` bigint NOT NULL COMMENT '卖单ID',
+  `trade_price` double NOT NULL COMMENT '成交价',
+  `trade_quantity` int NOT NULL COMMENT '成交量',
+  `trade_dt` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '成交时间',
+  `trade_date` varchar(8) NOT NULL COMMENT '成交日期(YYYYMMDD)',
+  INDEX `trade_date_idx` (`trade_date`(8)),
+  PRIMARY KEY (`id`),
+  FOREIGN KEY(`stock_id`) REFERENCES stock_base(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8  COMMENT='股票实时交易记录';
+
+#买方和卖方不能是同一个ID
+
+CREATE TABLE `stock_consign_buy_record` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `stock_id` bigint NOT NULL COMMENT '股票ID',
+  `user_id` bigint NOT NULL COMMENT '委托买入用户ID',
+  `fund_id` bigint NOT NULL COMMENT '资金状况ID',
+  `consign_type` varchar(1) NOT NULL DEFAULT 'B' COMMENT '委托类型（买）',
+  `consign_price` bigint NOT NULL COMMENT '委托价',
+  `consign_qt` bigint NOT NULL COMMENT '委托量',
+  `remains_qt` bigint DEFAULT 0 COMMENT '剩余量',
+  `consign_dt` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '委托时间',
+  `stauts` varchar(2) DEFAULT NULL COMMENT '状态(00:已取消;01:委托中;02:已成交)',
+  `last_update_dt` DATETIME DEFAULT NULL COMMENT '最终更新时间',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY(`user_id`) REFERENCES user_base(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(`stock_id`) REFERENCES stock_base(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(`fund_id`) REFERENCES user_fund(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8  COMMENT='股票委托买入记录';
+
+CREATE TABLE `stock_consign_sell_record` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `stock_id` bigint NOT NULL COMMENT '股票ID',
+  `user_id` bigint NOT NULL COMMENT '委托卖出用户ID',
+  `consign_type` varchar(1) NOT NULL DEFAULT 'S' COMMENT '委托类型（卖）',
+  `consign_price` double NOT NULL COMMENT '委托价',
+  `consign_qt` bigint NOT NULL COMMENT '委托量',
+  `remains_qt` bigint DEFAULT 0 COMMENT '剩余量',
+  `consign_dt` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '委托时间',
+  `stauts` varchar(2) DEFAULT NULL COMMENT '状态(00:已取消;01:委托中;02:已成交)',
+  `last_update_dt` DATETIME DEFAULT NULL COMMENT '最终更新时间',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY(`user_id`) REFERENCES user_base(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY(`stock_id`) REFERENCES stock_base(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8  COMMENT='股票委托卖出记录';
+
+
+CREATE TABLE `stock_price_history` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `stock_id` bigint NOT NULL COMMENT '股票ID',
+  `history_date` varchar(8) NOT NULL COMMENT '历史记录日期(YYYYMMDD)',
+  `last_price` double NOT NULL COMMENT '前日收盘价',
+  `closed_price` double NOT NULL COMMENT '当日收盘价',
+  `top_price` double DEFAULT NULL COMMENT '当日最高价',
+  `low_price` double DEFAULT NULL COMMENT '当日最低价',
+  `qt_total` bigint DEFAULT NULL COMMENT '当日成交量',
+  `trade_count` bigint DEFAULT NULL COMMENT '当日成交笔',
+  `last_update_dt` DATETIME DEFAULT NULL COMMENT '最终更新时间',
+  INDEX `history_date_idx` (`history_date`(8)) ,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY(`stock_id`) REFERENCES stock_base(`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8  COMMENT='股票价格历史记录';
+
+
+#专有名称：
+# dividend，consignment, 
+# https://stackblitz.com/edit/angular-h9ww63?file=src%2Fapp%2Fchat%2Fchat.component.html
