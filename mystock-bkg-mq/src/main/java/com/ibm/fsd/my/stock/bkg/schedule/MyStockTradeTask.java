@@ -19,7 +19,7 @@ public class MyStockTradeTask {
 	}
 	
 	@Scheduled(cron = "0 56 23 ? * MON-FRI")
-	//@Scheduled(cron = "0 30 9 ? * MON-FRI") //every workday AM 09:30
+	//@Scheduled(cron = "0 30 9 ? * MON-FRI") //every working day AM 09:30
 	public void MyStockTradeStartTask(){
 		//use bean flg set trade is start.
 		this.selfTradeFlg = true;
@@ -27,10 +27,17 @@ public class MyStockTradeTask {
 	}
 	
 	@Scheduled(cron = "0 58 23 ? * MON-FRI")
-	//@Scheduled(cron = "0 0 15 ? * MON-FRI") //every workday PM 15:00
+	//@Scheduled(cron = "0 0 15 ? * MON-FRI") //every working day PM 15:00
 	public void MyStockTradeCloseTask(){
 		//use bean flg set trade is close.
 		this.selfTradeFlg = false;
 		System.out.println("The trade is close at " + new Timestamp(System.currentTimeMillis()).toString());
+	}
+	
+	@Scheduled(cron = "*/15 * 9-15 ? * MON-FRI") //every working day AM 09:30 ~ PM 15:00 every 15 seconds
+	public void MyStockOnTradingTask(){
+		if (this.selfTradeFlg) {
+			System.out.println("The market is trading at " + new Timestamp(System.currentTimeMillis()).toString());
+		}
 	}
 }

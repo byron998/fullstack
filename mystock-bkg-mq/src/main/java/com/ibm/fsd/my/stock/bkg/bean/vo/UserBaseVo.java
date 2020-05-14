@@ -1,9 +1,8 @@
 package com.ibm.fsd.my.stock.bkg.bean.vo;
 
 import java.util.Date;
-
 import org.springframework.data.annotation.Id;
-
+//import com.couchbase.client.java.repository.annotation.Id;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ibm.fsd.my.stock.bkg.bean.result.VarcharBoolean;
 

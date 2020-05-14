@@ -8,7 +8,9 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -23,6 +25,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 @MapperScan("com.ibm.fsd.my.stock.bkg.mapper")
 @SpringBootApplication
 @EnableScheduling
+@EnableEurekaClient
 @EnableTransactionManagement
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MqApp 

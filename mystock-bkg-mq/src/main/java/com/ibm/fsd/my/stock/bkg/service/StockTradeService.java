@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ibm.fsd.my.stock.bkg.bean.result.TradeTypeEnum;
@@ -15,7 +17,7 @@ import com.ibm.fsd.my.stock.bkg.mapper.StockConsignSellRecordCustMapper;
 import com.ibm.fsd.my.stock.bkg.mapper.StockConsignbuyRecordCustMapper;
 import com.ibm.fsd.my.stock.bkg.mapper.StockTradeRecordMapper;
 import com.ibm.fsd.my.stock.bkg.mapper.UserHoldStockMapper;
-
+@Service
 public class StockTradeService {
 	@Autowired
 	private StockConsignbuyRecordCustMapper stockConsignbuyRecordMapper;
@@ -25,6 +27,8 @@ public class StockTradeService {
 	private StockTradeRecordMapper stockTradeRecordMapper;
 	@Autowired
 	private UserHoldStockMapper userHoldStockMapper;
+	
+	@Async //异步处理
 	@Transactional(rollbackFor = {Exception.class})
 	public Integer decreaseConsignRemainQt(StockConsignSellRecord sellRecord, StockConsignbuyRecord buyRecord, 
 			Long RemainQt, Double price, Long stockId) throws Exception{

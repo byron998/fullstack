@@ -1,0 +1,40 @@
+server:
+  port: 8384  #服务端口号
+  
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mystock?serverTimezone=GMT%2B8
+    username: root
+    password: 12345678g
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: 12345678g
+    virtual-host: /
+    listener:
+      concurrency: 2
+      max-concurrency: 5
+      prefetch: 8
+      
+  redis:
+    host: localhost
+    port: 6379
+    
+  http:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+jwt:
+  header: Authorization
+  secret: mySecret
+  #token有效期一天
+  expiration: 86400
+  tokenHead: "Bearer "
