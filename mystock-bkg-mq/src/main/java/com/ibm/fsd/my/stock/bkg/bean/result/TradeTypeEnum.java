@@ -13,16 +13,9 @@ public enum TradeTypeEnum {
 	TradeTypeEnum(String code) {
 		this.code = code;
 	}
-	
-	public Boolean getBoolean() {
-		if (this.code.equals("y")) {
-			return true;
-		} 
-		else if (this.code.equals("n")) {
-			return false;
-		}
-		else {
-			return null;
-		}
+
+	public String getCode() {
+		return code;
 	}
+	
 }
