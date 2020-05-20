@@ -22,8 +22,39 @@
         <h5>行业:{{ stockinfo.industry }}</h5>
       </div>
     </div>
+    <div class="row">
+      <mat-tab-group (selectedIndexChange)="selectedIndexChange($event)" (selectedTabChange)="selectedTabChange($event)">
+        <mat-tab label="日K">
+        </mat-tab>
+        <mat-tab label="5日K">
+        </mat-tab>
+        <mat-tab label="10日K">
+        </mat-tab>
+        <mat-tab label="30日K">
+        </mat-tab>
+      </mat-tab-group>
+      <div echarts [options]="options" style="width:55rem;height:30rem;" (chartInit)= "onChartInit($event)" ></div>
+    </div>
   </div>
+
   <div class="col-3 col-xs-3">
-    fenlen4
+    <div class="row">
+    <h5>十档行情</h5>
+    卖5&nbsp;&nbsp;16.85&nbsp;&nbsp;890<br>
+    卖4&nbsp;&nbsp;16.84&nbsp;&nbsp;890<br>
+    卖3&nbsp;&nbsp;16.83&nbsp;&nbsp;890<br>
+    卖2&nbsp;&nbsp;16.82&nbsp;&nbsp;890<br>
+    卖1&nbsp;&nbsp;16.81&nbsp;&nbsp;890<br>
+    买1&nbsp;&nbsp;16.80&nbsp;&nbsp;890<br>
+    买2&nbsp;&nbsp;16.79&nbsp;&nbsp;890<br>
+    买3&nbsp;&nbsp;16.78&nbsp;&nbsp;890<br>
+    买4&nbsp;&nbsp;16.77&nbsp;&nbsp;890<br>
+    买5&nbsp;&nbsp;16.76&nbsp;&nbsp;890<br>
+    </div>
+    <div class="row">
+      <button type="button">buy</button>
+      <button type="button">sell</button>
+    </div>
   </div>
+
 </div>

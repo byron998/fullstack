@@ -28,6 +28,12 @@
         <artifactId>spring-boot-starter-web</artifactId>
         <version>${maven.spring.boot.version}</version>
     </dependency>
+    <!-- WebStock -->
+    <dependency>
+	   	<groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-websocket</artifactId>
+        <version>${maven.spring.boot.version}</version>
+	</dependency>
     <!-- amqp for RabbitMQ -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
