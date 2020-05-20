@@ -21,6 +21,7 @@ public class StockConsignService {
 	@Autowired
 	private CommonMapper commonMapper;
 	
+	
 	public Integer consignBuy(StockConsignbuyRecord record) {
 		record.setStatus(TradeStatusEnum.TS_CONSIGN.code);
 		record.setRemainsQt(record.getConsignQt());

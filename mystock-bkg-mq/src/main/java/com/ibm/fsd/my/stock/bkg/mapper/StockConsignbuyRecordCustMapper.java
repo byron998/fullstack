@@ -16,6 +16,6 @@ public interface StockConsignbuyRecordCustMapper extends StockConsignbuyRecordMa
 	 Integer decreaseConsignbuyRemains(Long buyid, Long decrease, Boolean isCompleted, Date locktime);
 	 
 	 @Select("SELECT * FROM stock_consign_buy_record WHERE status='01' AND stock_id=#{stockid} AND consign_price = #{price} ORDER BY consign_dt LIMIT #{top}")
-	 List<StockConsignbuyRecord> getTopNByPrice(Integer top, Long stockid, Double price);
+	 List<StockConsignbuyRecord> getTopNWaitingByPrice(Integer top, Long stockid, Double price);
 	 //DATE_FORMAT(NOW(), '%Y%m%d')
 }
