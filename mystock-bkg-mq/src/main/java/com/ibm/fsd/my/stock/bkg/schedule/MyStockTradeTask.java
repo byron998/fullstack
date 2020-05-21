@@ -5,20 +5,34 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.MessageDeliveryMode;
+import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.AbstractJavaTypeMapper;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ibm.fsd.my.stock.bkg.bean.Mail;
+import com.ibm.fsd.my.stock.bkg.config.RabbitmqConfig;
 import com.ibm.fsd.my.stock.bkg.domain.StockPriceHistory;
 import com.ibm.fsd.my.stock.bkg.service.StockTradeService;
 
 @Component
 public class MyStockTradeTask {
-//	@Autowired
-//	Queue helloQueue;
-	
 	@Autowired
-	StockTradeService stockTradeService;
+	private StockTradeService stockTradeService;
+	@Autowired
+    private ObjectMapper objectMapper;
+	@Autowired
+	private RabbitTemplate rabbitTemplate;
+	@Autowired
+    private Environment env;
 	
 	public boolean selfTradeFlg;
 	public String tradingDate;
@@ -64,7 +78,15 @@ public class MyStockTradeTask {
 				if (tt2.isInterrupted()) {
 					thread1.stop();
 				}
-				
+				//
+				rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+                rabbitTemplate.setExchange(RabbitmqConfig.EXCHANGE_A);
+                rabbitTemplate.setRoutingKey(RabbitmqConfig.ROUTINGKEY_A);
+                Mail bean = new Mail();
+                Message message=MessageBuilder.withBody(objectMapper.writeValueAsBytes(bean)).setDeliveryMode(MessageDeliveryMode.PERSISTENT).build();
+                message.getMessageProperties().setHeader(AbstractJavaTypeMapper.DEFAULT_CONTENT_CLASSID_FIELD_NAME, MessageProperties.CONTENT_TYPE_JSON); 
+                rabbitTemplate.convertAndSend(message); 
+
 			}
 			catch (Exception ex) {
 				ex.printStackTrace();

@@ -16,11 +16,14 @@ import javax.websocket.server.ServerEndpoint;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.ibm.fsd.my.stock.bkg.config.RabbitmqConfig;
 
 @ServerEndpoint("/wsserver/{userId}")
 @Component
@@ -116,12 +119,6 @@ public class WebSocketServer {
 	    public void onError(Session session, Throwable error) {
 	    	try {
 		        log.error("用户错误:"+userId+",原因:"+error.getMessage());
-//		        if (webSocketMap.containsKey(userId)) {
-//		        	subOnlineCount();
-//		        	webSocketMap.remove(userId);
-//		        	log.error("用户退出:"+userId+",当前在线人数为:"+ getOnlineCount());
-//		        }
-		        //error.printStackTrace();
 	    	}
 	    	catch (Exception ex) {
 	    		ex.printStackTrace();
@@ -165,5 +162,16 @@ public class WebSocketServer {
 	    		returnList.add(keyEnm.nextElement());
 	    	}
 	    	return returnList;
+	    }
+	    
+	    @RabbitListener(queues = RabbitmqConfig.QUEUE_A)
+	    public void consumeMqMsgQueue(@Payload byte[] body) {
+	    	try {
+	    		String message = new String(body, "UTF-8");
+	    		log.info("从mq获取Msg:"+ message);
+	    		this.sendMessage(message);
+	    	} catch(Exception ex) {
+	    		log.error("从mq接收Msg报错:"+ ex.getMessage());
+	    	}
 	    }
 }

@@ -3,7 +3,11 @@ package com.ibm.fsd.my.stock.bkg.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AcknowledgeMode;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -28,6 +32,10 @@ public class RabbitmqConfig {
 	
 	@Autowired
 	private SimpleRabbitListenerContainerFactoryConfigurer factoryConfigurer;
+	
+	public static final String EXCHANGE_A = "my-mq-exchange_A";
+	public static final String QUEUE_A = "QUEUE_A";
+    public static final String ROUTINGKEY_A = "spring-boot-routingKey_A";
 	
 	/**
 	 * Single Listener Container
@@ -81,5 +89,18 @@ public class RabbitmqConfig {
 	        }
 	    });
 	    return rabbitTemplate;
+	}
+	
+	@Bean
+	public Queue messageQueue() { 
+		return new Queue(QUEUE_A);
+	}
+	@Bean 
+	public DirectExchange messageDirectExchange() {
+		return new DirectExchange(EXCHANGE_A);
+	}
+	@Bean 
+	public Binding messageBinding() {
+		return BindingBuilder.bind(messageQueue()).to(messageDirectExchange()).with(ROUTINGKEY_A);
 	}
 }

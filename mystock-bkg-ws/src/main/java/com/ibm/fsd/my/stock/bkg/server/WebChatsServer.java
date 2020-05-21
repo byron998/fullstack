@@ -116,12 +116,6 @@ public class WebChatsServer {
 	    public void onError(Session session, Throwable error) {
 	    	try {
 		        log.error("用户错误:"+userId+",原因:"+error.getMessage());
-//		        if (webSocketMap.containsKey(userId)) {
-//		        	subOnlineCount();
-//		        	webSocketMap.remove(userId);
-//		        	log.error("用户退出:"+userId+",当前在线人数为:"+ getOnlineCount());
-//		        }
-		        //error.printStackTrace();
 	    	}
 	    	catch (Exception ex) {
 	    		ex.printStackTrace();
