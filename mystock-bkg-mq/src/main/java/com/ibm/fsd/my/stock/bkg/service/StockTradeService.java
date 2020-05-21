@@ -37,11 +37,11 @@ public class StockTradeService {
 	private StockPriceHistoryCustMapper stockPriceHistoryCustMapper;
 	
 	public List<StockConsignSellRecord> getTopNSellByPrice(Integer top, Long stockid, Double price) {
-		return stockConsignSellRecordMapper.getTopNWaitingByPrice(top, stockid, price);
+		return stockConsignSellRecordMapper.getTopNWaitingByPrice("01", stockid, price, top);
 	}
 	
 	public List<StockConsignbuyRecord> getTopNbuyByPrice(Integer top, Long stockid, Double price) {
-		return stockConsignbuyRecordMapper.getTopNWaitingByPrice(top, stockid, price);
+		return stockConsignbuyRecordMapper.getTopNWaitingByPrice("01", stockid, price, top);
 	}
 	
 	public List<StockPriceHistory> getLastDatePrices() {

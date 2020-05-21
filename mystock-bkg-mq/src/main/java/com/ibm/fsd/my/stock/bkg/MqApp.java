@@ -25,7 +25,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 @MapperScan("com.ibm.fsd.my.stock.bkg.mapper")
 @SpringBootApplication
 @EnableScheduling
-@EnableEurekaClient
+//@EnableEurekaClient
 @EnableTransactionManagement
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MqApp 

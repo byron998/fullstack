@@ -15,15 +15,15 @@ public interface StockPriceHistoryCustMapper extends StockPriceHistoryMapper{
 	 		+ " WHERE id=#{id}")// and last_update_dt = #{lock_time}
 	 Integer decreaseConsignbuyRemains(Long id, Long decrease, Boolean isCompleted, Date locktime);
 	 
-	 @Select("SELECT spg.* FROM stock_price_history sph "
+	 @Select("SELECT sph.* FROM stock_price_history sph, "
 	 		+ "(SELECT stock_id, MAX(history_date) AS max_date FROM stock_price_history GROUP BY stock_id) spg "
 	 		+ " WHERE sph.stock_id = spg.stock_id AND sph.history_date = spg.max_date ORDER BY stock_id")
 	 List<StockPriceHistory> getLastDatePrices();
 	 
-	 @Select("SELECT spg.* FROM stock_price_history sph Where history_date = #{today} ORDER BY stock_id")
+	 @Select("SELECT * FROM stock_price_history Where history_date = #{today} ORDER BY stock_id")
 	 List<StockPriceHistory> getToDatePrices(String today);
 	 
-	 @Select("SELECT spg.* FROM stock_price_history sph Where stock_id = #{stockid} ORDER BY history_date Limit #{top}")
+	 @Select("SELECT * FROM stock_price_history Where stock_id = #{stockid} ORDER BY history_date Limit #{top}")
 	 List<StockPriceHistory> getStockHistoryPrices(Long stockid, Integer top);
 	 //DATE_FORMAT(NOW(), '%Y%m%d')
 }

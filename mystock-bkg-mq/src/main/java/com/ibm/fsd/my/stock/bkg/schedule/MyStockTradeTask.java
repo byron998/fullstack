@@ -17,16 +17,19 @@ import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ibm.fsd.my.stock.bkg.bean.Mail;
 import com.ibm.fsd.my.stock.bkg.config.RabbitmqConfig;
 import com.ibm.fsd.my.stock.bkg.domain.StockPriceHistory;
+import com.ibm.fsd.my.stock.bkg.service.StockConsignService;
 import com.ibm.fsd.my.stock.bkg.service.StockTradeService;
 
 @Component
 public class MyStockTradeTask {
 	@Autowired
 	private StockTradeService stockTradeService;
+	@Autowired
+	private StockConsignService stockConsignService;
 	@Autowired
     private ObjectMapper objectMapper;
 	@Autowired
@@ -41,7 +44,7 @@ public class MyStockTradeTask {
 		this.selfTradeFlg = false;
 	}
 	
-	@Scheduled(cron = "0 15 15 ? * MON-FRI")
+	@Scheduled(cron = "0 36 21 ? * MON-FRI")
 	//@Scheduled(cron = "0 30 9 ? * MON-FRI") //every working day AM 09:30
 	public void MyStockTradeStartTask(){
 		System.out.println("The trade is start at " + new Timestamp(System.currentTimeMillis()).toString());
@@ -54,21 +57,21 @@ public class MyStockTradeTask {
 		this.selfTradeFlg = true;
 	}
 	
-	@Scheduled(cron = "0 58 18 ? * MON-FRI")
+	@Scheduled(cron = "0 58 21 ? * MON-FRI")
 	//@Scheduled(cron = "0 0 15 ? * MON-FRI") //every working day PM 15:00
 	public void MyStockTradeCloseTask(){
 		//use bean flg set trade is close.
 		this.selfTradeFlg = false;
 		System.out.println("The trade is close at " + new Timestamp(System.currentTimeMillis()).toString());
 	}
-	@Scheduled(cron = "*/15 * 9-18 ? * MON-FRI") //every working day AM 09:30 ~ PM 15:00 every 15 seconds
+	@Scheduled(cron = "*/15 * 9-23 ? * MON-FRI") //every working day AM 09:30 ~ PM 15:00 every 15 seconds
 	//@Scheduled(cron = "*/15 * 9-15 ? * MON-FRI") //every working day AM 09:30 ~ PM 15:00 every 15 seconds
 	public void MyStockOnTradingTask(){
 		if (this.selfTradeFlg) {
 			System.out.println("The market is trading at " + new Timestamp(System.currentTimeMillis()).toString());
 			//stockTradeService.getTopNbuyByPrice(top, price);
 			//stockTradeService.getTopNSellByPrice(top, price);
-			MyStockThread thread1 = new MyStockThread("20200520");
+			MyStockThread thread1 = new MyStockThread("20200520", stockTradeService, stockConsignService);
 			TimerThread thread2 = new TimerThread();
 			Thread tt1 = new Thread(thread1,"mainthread");
 			Thread tt2 = new Thread(thread2,"timethread");
@@ -82,8 +85,9 @@ public class MyStockTradeTask {
 				rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
                 rabbitTemplate.setExchange(RabbitmqConfig.EXCHANGE_A);
                 rabbitTemplate.setRoutingKey(RabbitmqConfig.ROUTINGKEY_A);
-                Mail bean = new Mail();
-                Message message=MessageBuilder.withBody(objectMapper.writeValueAsBytes(bean)).setDeliveryMode(MessageDeliveryMode.PERSISTENT).build();
+                JSONObject json = new JSONObject();
+                json.put("value", "ok");
+                Message message=MessageBuilder.withBody(objectMapper.writeValueAsBytes(json)).setDeliveryMode(MessageDeliveryMode.PERSISTENT).build();
                 message.getMessageProperties().setHeader(AbstractJavaTypeMapper.DEFAULT_CONTENT_CLASSID_FIELD_NAME, MessageProperties.CONTENT_TYPE_JSON); 
                 rabbitTemplate.convertAndSend(message); 
 

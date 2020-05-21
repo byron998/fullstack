@@ -19,14 +19,16 @@ public class MyStockThread implements Runnable{
 	private final Double rate = 0.01;
 	private boolean start = false;
 	
-	@Autowired
-	private StockTradeService stockTradeService;
-	@Autowired
-	private StockConsignService stockConsignService;
 	
-	public MyStockThread(String input) {
+	private final StockTradeService stockTradeService;
+	
+	private final StockConsignService stockConsignService;
+	
+	public MyStockThread(String input, StockTradeService stockTradeService, StockConsignService stockConsignService) {
 		this.tradeDate = input;
 		this.start = true;
+		this.stockTradeService = stockTradeService;
+		this.stockConsignService = stockConsignService;
 	}
 	public void stop() {
 		this.start = false;
