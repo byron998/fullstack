@@ -1,15 +1,21 @@
-package com.ibm.fsd.my.stock.service.bkg;
+package com.ibm.fsd.my.stock.bkg;
+
+import javax.ws.rs.core.Application;
+
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = Application.class)
+@WebAppConfiguration
+//@TestPropertySource("classpath:application.yml")
+public class AppTest extends TestCase {
     /**
      * Create the test case
      *

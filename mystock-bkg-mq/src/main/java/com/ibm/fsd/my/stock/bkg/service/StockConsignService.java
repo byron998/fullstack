@@ -37,4 +37,14 @@ public class StockConsignService {
 		stockConsignSellRecordMapper.insertSelective(record);
 		return commonMapper.getLastInsertedId();
 	}
+	
+	public Integer updateConsignSell(StockConsignSellRecord record) {
+		record.setLastUpdateDt(new Date());
+		return stockConsignSellRecordMapper.updateByPrimaryKeySelective(record);
+	}
+	
+	public Integer updateConsignBuy(StockConsignbuyRecord record) {
+		record.setLastUpdateDt(new Date());
+		return stockConsignbuyRecordMapper.updateByPrimaryKeySelective(record);
+	}
 }

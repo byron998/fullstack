@@ -10,6 +10,7 @@ import com.ibm.fsd.my.stock.bkg.bean.bo.ConsignSellAndBuyRecord;
 import com.ibm.fsd.my.stock.bkg.domain.StockConsignSellRecord;
 import com.ibm.fsd.my.stock.bkg.domain.StockConsignbuyRecord;
 import com.ibm.fsd.my.stock.bkg.domain.StockPriceHistory;
+import com.ibm.fsd.my.stock.bkg.service.StockConsignService;
 import com.ibm.fsd.my.stock.bkg.service.StockTradeService;
 
 public class MyStockThread implements Runnable{
@@ -17,8 +18,12 @@ public class MyStockThread implements Runnable{
 	private final Integer tradeCnt = 100;
 	private final Double rate = 0.01;
 	private boolean start = false;
+	
 	@Autowired
 	private StockTradeService stockTradeService;
+	@Autowired
+	private StockConsignService stockConsignService;
+	
 	public MyStockThread(String input) {
 		this.tradeDate = input;
 		this.start = true;
@@ -113,25 +118,36 @@ public class MyStockThread implements Runnable{
 			StockConsignbuyRecord buy = lastBuy != null ? buyList.get(buyIdx) : lastBuy;
 			Future<ConsignSellAndBuyRecord> resultFtu = stockTradeService.decreaseConsignRemainQt(sel, buy, price, stockId);
 			ConsignSellAndBuyRecord result = resultFtu.get();
-			if (result.getBuyRecord() == null && result.getSellRecord() == null) {
-				// not remains to next sell & buy
-				buyIdx++;
-				selIdx++;
-				lastBuy = null;
-				lastSell = null;
-				continue;
+			if (this.start) {
+				if (result.getBuyRecord() == null && result.getSellRecord() == null) {
+					// not remains to next sell & buy
+					buyIdx++;
+					selIdx++;
+					lastBuy = null;
+					lastSell = null;
+					continue;
+				}
+				else if (result.getBuyRecord() == null && result.getSellRecord() != null) {
+					buyIdx++;
+					lastBuy = null;
+					lastSell = result.getSellRecord();
+					continue;
+				}
+				else if (result.getBuyRecord() != null && result.getSellRecord() == null) {
+					selIdx++;
+					lastBuy = result.getBuyRecord();
+					lastSell = null;
+					continue;
+				}
 			}
-			else if (result.getBuyRecord() == null && result.getSellRecord() != null) {
-				buyIdx++;
-				lastBuy = null;
-				lastSell = result.getSellRecord();
-				continue;
-			}
-			else if (result.getBuyRecord() != null && result.getSellRecord() == null) {
-				selIdx++;
-				lastBuy = result.getBuyRecord();
-				lastSell = null;
-				continue;
+			else {
+				if(lastSell != null) {
+					stockConsignService.updateConsignSell(lastSell);
+				}
+				if (lastBuy != null) {
+					stockConsignService.updateConsignBuy(lastBuy);
+				}
+				return -1;
 			}
 		}
 		return buyIdx > selIdx ? selIdx : buyIdx;

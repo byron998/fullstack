@@ -6,7 +6,7 @@ public class TimerThread implements Runnable {
 		int i = 0;
 		boolean b = true;
 		while (b) {
-
+			// end at 10 second late
 			if (i == 10) {
 				b = false;
 			}
