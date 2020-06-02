@@ -1,7 +1,10 @@
 eureka:
+  instance:
+    hostname: 127.0.0.1 #服务注册中心IP地址
+    port: 8381
   client:
     serviceUrl: #注册中心的注册地址
-      defaultZone: http://127.0.0.1:8381/eureka/
+      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
 
 spring:
   profiles:

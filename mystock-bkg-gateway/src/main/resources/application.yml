@@ -7,11 +7,18 @@ spring:
 zuul:
   routes:
     serivceA:
-      path: /seca/**
-      serviceId: serviceA
+      path: /mq/**
+      serviceId: MYSTOCK-BACKGROUD-MQ
     serviceB:
+      path: /ws/**
+      serviceId: MYSTOCK-BACKGROUD-WS
       
 eureka:
+  instance:
+    hostname: 127.0.0.1 #服务注册中心IP地址
+    port: 8381
   client:
-    serviceUrl:
-      defaultZone: http://localhost:8555
+    registerWithEureka: false #是否向服务注册中心注册自己
+    fetchRegistry: true #是否检索服务
+    serviceUrl: #服务注册中心的配置内容，指定服务注册中心的位置
+      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
