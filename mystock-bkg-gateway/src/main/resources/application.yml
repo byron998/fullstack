@@ -1,0 +1,17 @@
+server:
+  port: 8555 #API网关端口号
+spring:
+  application:
+    name: API-Gateway
+
+zuul:
+  routes:
+    serivceA:
+      path: /seca/**
+      serviceId: serviceA
+    serviceB:
+      
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8555

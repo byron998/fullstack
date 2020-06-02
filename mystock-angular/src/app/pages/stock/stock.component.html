@@ -2,17 +2,23 @@
   <div class="col-9 col-xs-9">
     <div class="row">
       <div class="col-3 col-xs-9">
-        <h4>ID:{{ stockid }}</h4>
+        <h3>{{ stockinfo.name }}&nbsp;&nbsp;[&nbsp;{{ stockinfo.code }}&nbsp;]</h3>
       </div>
       <div class="col-3 col-xs-9">
-        <h5>名称:{{ stockinfo.name }}</h5>
+        <h5></h5>
       </div>
       <div class="col-3 col-xs-9">
-        <h5>交易价格:{{ stockinfo.price }}</h5>
+        <h5>昨收价:{{ stockinfo.price }}</h5>
+      </div>
+      <div class="col-3 col-xs-9">
+        <h5>开盘价:{{ stockinfo.price }}</h5>
       </div>
     </div>
     <div class="row">
-      <div class="col-3 col-xs-9 row">
+      <div class="col-3 col-xs-9">
+        <h5>现价:<span [ngClass]="{'none-rate': stockinfo.rate==0,'up-rate': stockinfo.rate>0,'down-rate': stockinfo.rate<0}">{{ stockinfo.rate | rate}}</span></h5>
+      </div>
+      <div class="col-3 col-xs-9">
         <h5>涨幅:<span [ngClass]="{'none-rate': stockinfo.rate==0,'up-rate': stockinfo.rate>0,'down-rate': stockinfo.rate<0}">{{ stockinfo.rate | rate}}</span></h5>
       </div>
       <div class="col-3 col-xs-9">
@@ -23,7 +29,21 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-3 col-xs-9">
+      </div>
+      <div class="col-3 col-xs-9">
+      </div>
+      <div class="col-3 col-xs-9">
+        <h5>可成交量:{{ stockinfo.market }}</h5>
+      </div>
+      <div class="col-3 col-xs-9">
+        <h5>市场总量:{{ stockinfo.industry }}</h5>
+      </div>
+    </div>
+    <div class="row">
       <mat-tab-group (selectedIndexChange)="selectedIndexChange($event)" (selectedTabChange)="selectedTabChange($event)">
+        <mat-tab label="分时">
+        </mat-tab>
         <mat-tab label="日K">
         </mat-tab>
         <mat-tab label="5日K">
