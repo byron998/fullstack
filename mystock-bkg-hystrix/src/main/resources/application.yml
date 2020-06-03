@@ -1,0 +1,5 @@
+server:
+  port: 8556 #HystrixDashboard端口号
+spring:
+  application:
+    name: Hystrix-Dashboard
