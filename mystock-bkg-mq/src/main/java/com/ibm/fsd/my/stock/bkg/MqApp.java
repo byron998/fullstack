@@ -8,29 +8,24 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import com.ibm.fsd.my.stock.bkg.bean.result.ReturnResponse;
-import com.ibm.fsd.my.stock.bkg.bean.result.ReturnResult;
-
-import io.swagger.annotations.ApiOperation;
 
 
 @MapperScan("com.ibm.fsd.my.stock.bkg.mapper")
 @SpringBootApplication
 @EnableScheduling
 //@EnableEurekaClient
+@EnableCircuitBreaker
 @EnableTransactionManagement
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MqApp 

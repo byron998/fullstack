@@ -17,6 +17,7 @@ import javax.websocket.server.ServerEndpoint;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -24,11 +25,14 @@ import org.springframework.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ibm.fsd.my.stock.bkg.config.RabbitmqConfig;
+import com.ibm.fsd.my.stock.bkg.feign.FeignClientService;
 
 @ServerEndpoint("/wsserver/{userId}")
 @Component
 public class WebSocketServer {
-
+		
+		@Autowired
+		private FeignClientService client;
 	    static Log log=LogFactory.getLog(WebSocketServer.class);
 	    /**静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。*/
 	    private static int onlineCount = 0;
@@ -38,7 +42,6 @@ public class WebSocketServer {
 	    private Session session;
 	    /**接收userId*/
 	    private String userId="";
-
 	    /**
 	     * 连接建立成功调用的方法
 	     * @param session

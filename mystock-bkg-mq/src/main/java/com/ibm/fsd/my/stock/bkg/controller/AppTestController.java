@@ -17,7 +17,7 @@ public class AppTestController {
 
     @ApiOperation(value="获取服务名称")
 	@GetMapping("appname")
-    public ReturnResult<Map<String, String>> getLocaltime() {
+    public ReturnResult<Map<String, String>> getAppName() {
     	Map<String, String> map = new HashMap<String, String>();
     	map.put("key", System.getenv("spring.application.name"));
     	return ReturnResponse.makeOKResp(map);

@@ -87,8 +87,17 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+    <!-- hystrix -->
+    <dependency>
+	    <groupId>org.springframework.cloud</groupId>
+	    <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+	</dependency>
+	<!-- openfeign -->
+	<dependency>
+	    <groupId>org.springframework.cloud</groupId>
+	    <artifactId>spring-cloud-starter-openfeign</artifactId>
+	</dependency>
     <!-- eureka -->
-	<!-- cloud -->
 	<dependency>
 	    <groupId>org.springframework.cloud</groupId>
 	    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
