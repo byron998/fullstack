@@ -1,12 +1,21 @@
-# 该镜像需要依赖的基础镜像
+# base images
 FROM java:8
-# 将当前目录下的jar包复制到docker容器的/目录下
+# run mysql
+RUN -d --name mysql-test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql
+# run rabbit mq
+RUN -d --name rabbitmq -p 5672:5672 -p 15672:15672 -v `pwd`/data:/var/lib/rabbitmq --hostname myRabbit -e RABBITMQ_DEFAULT_VHOST=my_vhost  -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin
+# add jar
 ADD mystock-bkg-mq-0.0.1-SNAPSHOT.jar /opt/docker-app.jar
-# 运行过程中创建一个docker-app.jar文件
+# rename
 RUN bash -c 'touch /opt/docker-app.jar'
-# 声明服务运行在8381端口
+
+# RUN for working dir
+RUN mkdir -p /usr/local/project
+WORKDIR /usr/local/project
+
+# working on port
 EXPOSE 8381
-# 指定docker容器启动时运行jar包
+# 指run java -jar
 ENTRYPOINT ["java", "-jar","/opt/docker-app.jar"]
-# 指定维护者的名字
-MAINTAINER byron998
+# maintainer name e-mail
+MAINTAINER byron998 "byron998@gmail.com"
