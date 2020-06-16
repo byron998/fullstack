@@ -6,12 +6,12 @@ pipeline {
     }
 
     environment {
-        GIT_PROJECT_ADDR="git@gitee.com:uncleqiao/springboot-test.git" //项目的git地址
+        GIT_PROJECT_ADDR="https://github.com/byron998/fullstack.git" //项目的git地址
         JENKINS_WORKSPACE="/root/.jenkins/workspace"    //jenkins存放文件的地址
         PROJECT_NAME="${JOB_NAME}"  			        // 项目名
-        JAR_NAME="springboot-test-0.0.1-SNAPSHOT.jar"   // 项目生成的jar的名字
-        IMAGE_NAME="springboot-test"                    // 镜像名一般和项目名相同
-        IMAGE_ADDR="ccr.ccs.tencentyun.com/qiao_namespace/${IMAGE_NAME}"    // 镜像的位置
+        JAR_NAME="mystock-bkg-mq-0.0.1-SNAPSHOT.jar"   // 项目生成的jar的名字
+        IMAGE_NAME="mystock-bkg-mq"                    // 镜像名一般和项目名相同
+        IMAGE_ADDR="com.ibm.fsd.my.stock.bkg/workspace/${IMAGE_NAME}"    // 镜像的位置
         VERSION_ID="${BUILD_ID}"
     }
     stages {
@@ -63,7 +63,7 @@ pipeline {
                 echo 'pull image and docker run'
                 withEnv(['JENKINS_NODE_COOKIE=dontKillMe']) {
                     sh '''
-                        sudo docker login --username=yourusername --password=yourpassword ccr.ccs.tencentyun.com
+                        sudo docker login --username=sysadmin --password=sysadmin com.ibm.fsd.my.stock.bkg
                         sudo docker pull ${IMAGE_ADDR}:${VERSION_ID}
 
                         container_id=`docker ps|grep ${IMAGE_ADDR}:${VERSION_ID}|awk '{print $1}'`
@@ -82,7 +82,7 @@ pipeline {
                             docker rmi -f ${old_image_id}
                         fi
                         
-                        sudo docker run --name "${PROJECT_NAME}_${VERSION_ID}" -p 9001:8081 -d ${IMAGE_ADDR}:${VERSION_ID}
+                        sudo docker run --name "${PROJECT_NAME}_${VERSION_ID}" -p 8383:8383 -d ${IMAGE_ADDR}:${VERSION_ID}
                     '''
                 }
             }
