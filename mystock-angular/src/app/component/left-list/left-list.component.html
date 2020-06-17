@@ -7,37 +7,16 @@
       <button *ngFor="let product of products" [routerLink]="['/stock/'+ product.id ]" mat-stroked-button >
         {{ product.name }}
       </button>
-      <button (click)="showFiller = !showFiller" mat-stroked-button style="color: gray;">
-        华夏幸福
-      </button>
-      <button (click)="showFiller = !showFiller" mat-stroked-button style="color:green;">
-        华夏幸福
-      </button>
-      <button (click)="showFiller = !showFiller" mat-stroked-button style="color:red;">
-        华夏幸福
-      </button>
-      <button (click)="showFiller = !showFiller" mat-stroked-button style="color:red;">
-        华夏幸福
-      </button>
-      <button (click)="showFiller = !showFiller" mat-stroked-button style="color:red;">
-        华夏幸福
-      </button>
-      <button (click)="showFiller = !showFiller" mat-stroked-button style="color:red;">
-        华夏幸福
-      </button>
-      <button (click)="showFiller = !showFiller" mat-stroked-button style="color:red;">
-        华夏幸福
-      </button>
-      <button (click)="showFiller = !showFiller" mat-stroked-button style="color:red;">
-        华夏幸福
-      </button>
-      <button (click)="showFiller = !showFiller" mat-stroked-button style="color:red;">
+      <button [routerLink]="['/stock/'+ '54']" mat-stroked-button style="color: gray;">
         华夏幸福
       </button>
       <button [routerLink]="['/stock/'+ '54']" mat-stroked-button style="color:green;">
         华夏幸福
       </button>
-      <button [routerLink]="['/stock/'+ '55']" mat-stroked-button style="color:red;">
+      <button [routerLink]="['/stock/'+ '54']" mat-stroked-button style="color:red;">
+        华夏幸福
+      </button>
+      <button [routerLink]="['/stock/'+ '54']" mat-stroked-button style="color:red;">
         华夏幸福
       </button>
     </mat-drawer>

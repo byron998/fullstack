@@ -19,7 +19,9 @@ export class UserService {
   }
 
   postSignIn(UserModel) {
-    return this.http.post(`${environment.baseUrl}/login`, JSON.stringify(UserModel), httpOptions);
+    return this.http.post(`${environment.baseUrl}/api/auth/login`, JSON.stringify(UserModel), httpOptions);
   }
-
+  postRegister(UserModel) {
+    return this.http.post(`${environment.baseUrl}/api/user/register`, JSON.stringify(UserModel), httpOptions);
+  }
 }

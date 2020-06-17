@@ -55,7 +55,7 @@ export class SignInComponent implements OnInit {
   validInput(value: any): boolean {
     this.reset();
     let result = true
-    if (!value.name) {
+    if (!value.username) {
       this.alerts.push({type : 'danger', message: 'username required!'});
       result = false;
     }

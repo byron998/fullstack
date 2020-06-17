@@ -1,8 +1,9 @@
 export class UserModel {
   id: number;
-  name: string;
+  username: string;
   password: string;
   modile: string;
-  role?: string;
+  authorities?: JSON;
   token?: string;
+  enabled?: boolean;
 }
